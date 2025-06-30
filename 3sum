@@ -1,0 +1,19 @@
+https://leetcode.com/problems/3sum/description/
+
+Brute-Approach: Time-complexity: O(n^3) + log(number of triplet)  Space-complexity: 2*O(no of triplet)
+ public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> uniqueTriplets = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                       List<Integer> temp = Arrays.asList(nums[i], nums[j], nums[k]);
+                        Collections.sort(temp);
+                        uniqueTriplets.add(temp);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(uniqueTriplets);
+    }
+}
