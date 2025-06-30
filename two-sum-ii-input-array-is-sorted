@@ -1,6 +1,6 @@
 https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
 
-Brute-Force Approach:
+Brute-Force Approach: Time-complexity: O(n^2)
  public static int[] twoSum(int[] numbers, int target) {
         int ans[]=new int[2];
 
@@ -16,3 +16,18 @@ Brute-Force Approach:
     }
 
 
+Better Approach: Time-complexity: O(n* log n) (depending of which map you are taking) Space-complexity: O(n)
+public int[] twoSum(int[] numbers, int target) {
+       Map<Integer, Integer> mp= new HashMap<>();
+        for(int i=0;i<numbers.length;i++){
+            int a=numbers[i];
+            int rem=target-a;
+            if(mp.containsKey(rem)){
+                
+                 return new int[]{mp.get(rem)+1, i+1};
+            }
+            mp.put(a,i);
+            
+        }
+        return new int[]{-1,-1};
+    }
