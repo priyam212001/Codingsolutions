@@ -1,0 +1,30 @@
+https://leetcode.com/problems/boats-to-save-people/description/
+
+Two-pointer Approach: Time-complexity:O(n)
+class Solution {
+    public int numRescueBoats(int[] people, int limit) {
+        Arrays.sort(people);
+        int left=0;
+        int right=people.length-1;
+        int count=0;
+
+        while(left<=right){
+         int sum=people[left]+people[right];
+          
+        
+         if(sum<=limit){
+            count++;
+            System.out.println(right);
+            left++;
+            right--;
+         }
+         else{
+              count++;
+         
+            right--;
+         }
+        }
+
+        return count;
+    }
+}
