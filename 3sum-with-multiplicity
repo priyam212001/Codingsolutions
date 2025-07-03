@@ -1,0 +1,54 @@
+https://leetcode.com/problems/3sum-with-multiplicity/description/
+
+Two-pointer Approach: 
+Time Complexity:
+
+Worst case: O(n²)
+Best case: O(n)
+Space Complexity:
+
+Worst case: O(n)
+Best case: O(1)
+
+
+class Solution {
+    public int threeSumMulti(int[] arr, int target) {
+        int mod = 1_000_000_007;
+        Map<Integer, Integer> mp = new HashMap<>();
+
+        // Count the frequency of each number in the array
+        for (int num : arr) {
+            mp.put(num, mp.getOrDefault(num, 0) + 1);
+        }
+
+        long result = 0;
+
+        // Iterate over all pairs of numbers in the map
+        for (int i : mp.keySet()) {
+            for (int j : mp.keySet()) {
+                int k = target - i - j;
+
+                // Check if k exists in the map
+                if (!mp.containsKey(k)) continue;
+
+                // Case 1: i == j == k
+                if (i == j && j == k) {
+                    long count = mp.get(i);
+                    result += (count * (count - 1) * (count - 2)) / 6;
+                }
+                // Case 2: i == j != k
+                else if (i == j && j != k) {
+                    long count = mp.get(i);
+                    result += (count * (count - 1)) / 2 * mp.get(k);
+                }
+                // Case 3: i < j < k (avoid duplicates)
+                else if (i < j && j < k) {
+                    result += (long) mp.get(i) * mp.get(j) * mp.get(k);
+                }
+            }
+        }
+
+        // Return the result modulo mod
+        return (int) (result % mod);
+    }
+}
