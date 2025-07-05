@@ -1,0 +1,21 @@
+https://leetcode.com/problems/di-string-match/description/
+
+Two-pointer Approach:  Time-complexity:O(n) Space-complexity:O(n+1)
+class Solution {
+    public int[] diStringMatch(String s) {
+       int[] ans=new int[s.length()+1];
+       int l=0;
+       int r=s.length();
+       for(int i=0;i<s.length();i++){
+        if(s.charAt(i)=='I'){
+            ans[i]=l++;
+        }
+        else{
+            ans[i]=r--;
+        }
+       }
+       ans[s.length()]=l;
+       return ans;
+
+    }
+}
