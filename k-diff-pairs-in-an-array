@@ -1,0 +1,32 @@
+https://leetcode.com/problems/k-diff-pairs-in-an-array/
+
+Two-Pointer Approach:  Time-complexity: O(NlogN)  Space-complexity:O(1)
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        int count=0;
+
+        Arrays.sort(nums);
+        int left=0;
+        int right=1;
+
+        while(right<nums.length){
+            int diff=nums[right]-nums[left];
+            if(diff==k){
+                count++;
+               left++;
+               right++;
+               while(right<nums.length && nums[right]==nums[right-1]){
+                right++;
+               }
+            }
+            else if(nums[right]-nums[left]>k){
+                left++;
+                if(right-left==0){
+                    right++;
+                }
+            }
+            else right++;
+        }
+        return count;
+    }
+}
