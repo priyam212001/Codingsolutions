@@ -1,6 +1,6 @@
 https://leetcode.com/problems/partition-labels/description/
 
-Sliding-window:  Time-complexity:O(N)  Space-complexity:O(N)
+Sliding-window:  Time-complexity:O(N)  Space-complexity:O(K)  where k is number of character in string
 class Solution {
     public List<Integer> partitionLabels(String s) {
         Map<Character,Integer> lastOccurence=new HashMap<>();
