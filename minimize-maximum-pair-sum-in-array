@@ -1,0 +1,24 @@
+https://leetcode.com/problems/minimize-maximum-pair-sum-in-array/description/
+
+Two-pointer Approach: Time-complexity:O(n logn){Sorting} + O(n){while loop}
+
+class Solution {
+    public int minPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int left=0;
+        int right=nums.length-1;
+        int ans=0;
+        while(left<=right){
+         int sum=nums[left]+nums[right];
+         int max=0;
+         if(sum>ans){
+            ans=sum;
+         }
+         left++;
+         right--;
+         
+        }
+
+        return ans;
+    }
+}

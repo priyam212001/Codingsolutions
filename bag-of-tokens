@@ -1,0 +1,28 @@
+https://leetcode.com/problems/bag-of-tokens/description/
+
+Two-Pointer Approach: Time-complexity: O(NlogN){sorting} + O(N){two-pointer}  Space-complexity:O(logn)
+class Solution {
+    public int bagOfTokensScore(int[] tokens, int power) {
+        Arrays.sort(tokens);
+        int l=0, r=tokens.length-1;
+        int cur=0,max=0;
+
+        while(l<=r){
+            if(tokens[l]<=power){
+                power-=tokens[l];
+                cur+=1;
+                max=Math.max(cur,max);
+                l+=1;
+            }
+            else  if(cur>=1){
+                power+=tokens[r];
+                cur-=1;
+                r--;
+            }
+            else{
+                break;
+            }
+        }
+        return max;
+    }
+}

@@ -1,0 +1,29 @@
+https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/description/
+
+Two-pointer Approach: Time-complexity: O(nlogn) +O(n) Space-complexity: O(n)
+
+public int numSubseq(int[] nums, int target) {
+        int mod=1000000007;
+        int n=nums.length;
+        Arrays.sort(nums);
+        int[] power=new int[n];
+        power[0]=1;
+        for(int i=1;i<n;i++){
+            power[i]=(power[i-1]*2)%mod;
+        }
+        int result=0;
+        int left=0;
+        int right=nums.length-1;
+        while(left<=right){
+            int sum=nums[left]+nums[right];
+            if(sum>target){
+                right--;
+            }
+            else{
+                result=(result+ power[right-left])%mod;
+                left++;
+               
+            }
+        }
+        return result;
+    }
