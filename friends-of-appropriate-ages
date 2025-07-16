@@ -1,0 +1,57 @@
+https://leetcode.com/problems/friends-of-appropriate-ages/description/
+
+Brute Force Approach:  Time-complexity:O(N2)   This soltuion cause time limit exceeded
+class Solution {
+    public int numFriendRequests(int[] ages) {
+        int count=0;
+
+        for(int i=0;i<ages.length;i++){
+            int minage=ages[i]/2+7;
+            for(int j=0;j<ages.length;j++){
+                if(i!=j && minage<ages[j] && ages[j]<=ages[i] ){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+}
+
+
+Two-Pointer Approach:  Time-complexity:O(NlogN)
+import java.util.Arrays;
+
+public class Solution {
+    public static int numFriendRequests(int[] ages) {
+        Arrays.sort(ages); // Sort the ages array
+        
+        int totalRequests = 0;
+        int n = ages.length;
+
+        for (int i = 0; i < n; i++) {
+            int ageX = ages[i];
+
+            // Skip if the age is less than 15, as no friend requests can be made
+            if (ageX < 15) continue;
+
+            // Find the lower bound (age[y] > 0.5 * age[x] + 7)
+            int left = i - 1;
+            while (left >= 0 && ages[left] > 0.5 * ageX + 7) {
+                left--;
+            }
+
+            // Find the upper bound (age[y] <= age[x])
+            int right = i + 1;
+            while (right < n && ages[right] <= ageX) {
+                right++;
+            }
+
+            // Add the count of valid friend requests
+            totalRequests += (right - i - 1); // Requests from right side
+            totalRequests += (i - left - 1); // Requests from left side
+        }
+
+        return totalRequests;
+    }
+
+}
