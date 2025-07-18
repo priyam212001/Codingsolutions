@@ -1,0 +1,46 @@
+https://leetcode.com/problems/expressive-words/description/
+
+Time-complexity:O(N*M)  Space-complexity:O(1)
+class Solution {
+    public int expressiveWords(String s, String[] words) {
+        int count=0;
+        for(int i=0;i<words.length;i++){
+            if(Subseq(s,words[i])){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static boolean Subseq(String s, String word){
+        
+        if(s.length()<word.length()){
+            return false;
+        }
+        int i=0,j=0;
+
+        while(i<s.length() && j<word.length()){
+            if(s.charAt(i)!=word.charAt(j)){
+                return false;
+            }
+            char curr=word.charAt(j);
+            int sCount=0;
+            int wordCount=0;
+
+            while(i<s.length() && s.charAt(i)==curr){
+                sCount++;
+                i++;
+            }
+
+            while(j<word.length() && word.charAt(j)==curr){
+                wordCount++;
+                j++;
+            }
+            if(sCount-wordCount<0 || (sCount-wordCount!=0 && sCount<3)){
+                return false;
+            }
+        }
+        return i>=s.length() && j>=word.length();
+
+    }
+}
