@@ -1,0 +1,33 @@
+https://leetcode.com/problems/camelcase-matching/description/
+
+Time-complexity:O(N*M)  Space-complexity:O(1)
+class Solution {
+    public List<Boolean> camelMatch(String[] queries, String pattern) {
+        
+        List<Boolean> list=new ArrayList<>();
+
+        for(int i=0;i<queries.length;i++){
+            Boolean bool=Subseq(queries[i],pattern);
+             System.out.println(bool);
+            list.add(bool);
+        }
+
+
+        return list;
+    }
+
+    public static Boolean Subseq(String str, String pattern){
+        int i=0;
+
+        for(int j=0;j<str.length();j++){
+            if(i<pattern.length() && pattern.charAt(i)==str.charAt(j)){
+                i++;
+            }
+            else if(Character.isUpperCase(str.charAt(j))){
+                return false;
+            }
+        }
+        System.out.println( i==pattern.length());
+        return i==pattern.length();
+    }
+}
