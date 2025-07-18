@@ -1,6 +1,6 @@
 https://leetcode.com/problems/compare-version-numbers/description/
 
-
+Time-complexity:(N+M)  Space-complexity:O(1)
 class Solution {
     public int compareVersion(String version1, String version2) {
         int i=0,j=0;
