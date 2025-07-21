@@ -1,0 +1,38 @@
+https://leetcode.com/problems/most-profit-assigning-work/
+
+Time-complexity:O(M*N) Space-complexity:O(1)
+class Solution {
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        int sum = 0;
+
+        // Find the minimum difficulty among all jobs
+        int minDifficulty = Integer.MAX_VALUE;
+        for (int i = 0; i < difficulty.length; i++) {
+            if (minDifficulty > difficulty[i]) {
+                minDifficulty = difficulty[i];
+            }
+        }
+        System.out.println(minDifficulty + "min");
+
+        // Iterate through each worker
+        for (int i = 0; i < worker.length; i++) {
+            if (worker[i] < minDifficulty) {
+                // If worker's ability is less than the minimum difficulty, skip them
+                continue;
+            }
+
+            int maxProfit = 0; // Track the maximum profit the worker can earn
+            for (int j = 0; j < difficulty.length; j++) {
+                // Check if the worker can do the job and maximize the profit
+                if (worker[i] >= difficulty[j]) {
+                    maxProfit = Math.max(maxProfit, profit[j]);
+                }
+            }
+
+            System.out.println("Worker " + i + " earns: " + maxProfit);
+            sum += maxProfit; // Add the maximum profit to the total sum
+        }
+
+        return sum;
+    }
+}
