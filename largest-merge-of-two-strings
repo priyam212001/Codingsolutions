@@ -1,0 +1,47 @@
+https://leetcode.com/problems/largest-merge-of-two-strings/description/
+
+Time complexity: O(m + n)  Space complexity: O(1)
+class Solution {
+    public String largestMerge(String word1, String word2) {
+        char[] s1=word1.toCharArray();
+        char[] s2=word2.toCharArray();
+
+        int i=0,j=0,k=0, n1=s1.length,n2=s2.length;
+        char[] str=new char[n1+n2];
+
+        while(i<n1 && j<n2){
+            if(s1[i]>s2[j]){
+                str[k++]=s1[i++];
+            }
+            else if(s1[i]<s2[j]){
+                str[k++]=s2[j++];
+            }
+            else{
+                int a=i,b=j;
+                while(a<n1 && b<n2 && s1[a]==s2[b]){
+                    a++;
+                    b++;
+                }
+                if(a<n1 && b<n2 && s1[a]>s2[b]){
+                    str[k++]=s1[i++];
+                }
+                else if(b<n2 ){
+                    str[k++]=s2[j++];
+                }
+                else{
+                    str[k++]=s1[i++];
+                }
+            }
+        }
+
+        while(i<n1){
+            str[k++]=s1[i++];
+        }
+
+        while(j<n2){
+            str[k++]=s2[j++];
+        }
+
+        return new String(str);
+    }
+}
