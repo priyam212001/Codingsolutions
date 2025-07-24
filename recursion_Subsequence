@@ -1,0 +1,26 @@
+Time-complexity:O(2^N *N) {2^N = 2 TIMES RUNNING TREE, N=N times printing list}  Space-complexity:O(N)
+import java.util.*;
+
+public class Subsequence {
+    public static void printF(int ind, List<Integer> list,int[] arr,int n){
+        if(ind==n) {
+            for(int i=0;i<list.size();i++){
+                System.out.print(list.get(i)+",");
+            }
+            System.out.println();
+            return;
+        }
+        list.add(arr[ind]);
+        printF(ind+1,list,arr,n);
+        list.remove(list.size()-1);
+        printF(ind+1,list,arr,n);
+    }
+
+    public static void main(String[] args) {
+       int arr[]={4,1,2};
+       int n=3;
+       List<Integer> list=new ArrayList<>();
+       
+       printF(0,list,arr,n);
+    }
+}
