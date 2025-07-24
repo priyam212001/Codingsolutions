@@ -1,0 +1,30 @@
+Time-complexity:O(2^N)  Space-complexity:O(1)
+import java.util.*;
+
+public class Subsequence {
+    public static int printF(int ind,int[] arr,int n,int count,int sum){
+        if(ind==n) {
+            if(count==sum){
+            return 1;
+            }
+            return 0;
+        }
+        
+        count=count+arr[ind];
+        int left=printF(ind+1,arr,n,count,sum);
+        
+         count=count-arr[ind];
+        int right=printF(ind+1,arr,n,count,sum);
+        
+        return left+right;
+    }
+
+    public static void main(String[] args) {
+       int arr[]={1,2,1};
+       int n=3;
+       int sum=2;
+       int count=0;
+       
+       System.out.print(printF(0,arr,n,count,sum));
+    }
+}
