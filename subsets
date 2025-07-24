@@ -1,0 +1,22 @@
+https://leetcode.com/problems/subsets/description/
+
+Time-complexity:O(2^N)  Space-complexity:(2^N)
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> list=new ArrayList<>();
+        List<Integer> subset=new ArrayList<>();
+
+        createsub(0,nums,list,subset);
+        return list;
+    }
+    public void createsub(int ind,int[] nums,List<List<Integer>> list,List<Integer> subset){
+         if(ind==nums.length){
+            list.add(new ArrayList<>(subset));
+            return;
+         }
+         subset.add(nums[ind]);
+         createsub(ind+1,nums,list,subset);
+         subset.remove(subset.size()-1);
+         createsub(ind+1,nums,list,subset);
+    }
+}
