@@ -1,0 +1,30 @@
+https://takeuforward.org/plus/dsa/problems/subsets-i
+
+Time-complexity:O(2*K log(2^K)) { 2^K=because we have 2 choices everytime to pick up or not pickup, log(2^k)= to sort that 2^k element}
+Space-complexity:O(2^K)
+import java.util.*;
+
+public class Subsequence {
+     public static List<Integer> subsetSums(int[] nums) {
+        List<Integer> list=new ArrayList<>();
+        countSum(0,nums,list,0);
+        Collections.sort(list);
+        return list;
+    }
+    public static void countSum(int ind,int[] arr,List<Integer> list,int sum){
+        if(ind==arr.length) {
+            list.add(sum);
+            return;
+        }
+        countSum(ind+1,arr,list,sum+arr[ind]);
+        countSum(ind+1,arr,list,sum);
+        
+    }
+
+    public static void main(String[] args) {
+       int arr[]={2, 3};
+      
+    //   List<Integer> list=new ArrayList<>();
+       System.out.print(subsetSums(arr));
+    }
+}
