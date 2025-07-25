@@ -1,0 +1,23 @@
+https://leetcode.com/problems/subsets-ii/description/
+
+class Solution {
+    public void countComb(int ind,int[] nums,List<List<Integer>> list,ArrayList<Integer> subset){
+        list.add(new ArrayList<>(subset));
+        for(int i=ind;i<nums.length;i++){
+            if(i!=ind && nums[i]==nums[i-1]) continue;
+            subset.add(nums[i]);
+           countComb(i+1,nums,list,subset);
+            subset.remove(subset.size()-1);
+        }
+        
+    }
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> list=new ArrayList<>();
+       
+        Arrays.sort(nums);
+        countComb(0,nums,list,new ArrayList<>());
+        
+        return list;
+
+    }
+}
