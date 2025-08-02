@@ -1,0 +1,110 @@
+https://leetcode.com/problems/house-robber-ii/description/
+
+Memoization  Time-complexity:O(N)  Space-complexity:O(N)
+class Solution {
+    public static int func(int[] nums, int dp[],int ind){
+        if(ind==0) return nums[ind];
+        if(ind<0) return 0;
+
+        if(dp[ind]!=-1) return dp[ind];
+        int pick=nums[ind]+func(nums,dp,ind-2);
+        int nonpick=0+func(nums,dp,ind-1);
+        return dp[ind]=Math.max(pick,nonpick);
+    }
+    public int rob1(int[] nums) {
+        int n=nums.length;
+        int dp[]=new int[n];
+        Arrays.fill(dp,-1);
+         return func(nums,dp,n-1);
+    }
+
+    public int rob(int[] nums){
+        
+        int n=nums.length;
+        int[] arr1=new int[n-1];
+        int[] arr2=new int[n-1];
+        if(n==1) return nums[0];
+        int j=0,k=0;
+        for(int i=0;i<n;i++){
+            if(i!=0) arr1[j++]=nums[i];
+            if(i!=n-1) arr2[k++]=nums[i];
+        }
+        return Math.max(rob1(arr1),rob1(arr2));
+    }
+}
+
+Tabulation:  Time-complexity:O(N)  Space-complexity:O(N)
+
+class Solution {
+    public static int solveUtil(int n,int[] nums,int dp[]) {
+      
+         dp[0]=nums[0];
+
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i>1) take+=dp[i-2];
+
+            int nontake=0+dp[i-1];
+           dp[i]=Math.max(take,nontake);
+
+            
+        }
+        return dp[n-1];
+    }
+    static int rob1(int[] arr) {
+        int n=arr.length;
+        int dp[] = new int[n];
+        Arrays.fill(dp, -1);
+        return solveUtil(n, arr, dp);
+    }
+
+    public int rob(int[] nums){
+        
+        int n=nums.length;
+        int[] arr1=new int[n-1];
+        int[] arr2=new int[n-1];
+        if(n==1) return nums[0];
+        int j=0,k=0;
+        for(int i=0;i<n;i++){
+            if(i!=0) arr1[j++]=nums[i];
+            if(i!=n-1) arr2[k++]=nums[i];
+        }
+        return Math.max(rob1(arr1),rob1(arr2));
+    }
+}
+
+Space-optimization: Time-complexity:O(N)  Space-complexity:O(1)
+
+class Solution {
+    public int rob1(int[] nums) {
+        int n=nums.length;
+        int prev=nums[0];
+        int prev2=0;
+
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i>1) take+=prev2;
+
+            int nontake=0+prev;
+            int curr=Math.max(take,nontake);
+
+            prev2=prev;
+            prev=curr;
+        }
+        return prev;
+    }
+
+    public int rob(int[] nums){
+        
+        int n=nums.length;
+        int[] arr1=new int[n-1];
+        int[] arr2=new int[n-1];
+        if(n==1) return nums[0];
+        int j=0,k=0;
+        for(int i=0;i<n;i++){
+            if(i!=0) arr1[j++]=nums[i];
+            if(i!=n-1) arr2[k++]=nums[i];
+        }
+        return Math.max(rob1(arr1),rob1(arr2));
+    }
+}
