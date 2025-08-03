@@ -1,0 +1,60 @@
+https://leetcode.com/problems/unique-paths/description/
+
+Recursion approach:It will cause TLE  Time-complexity:2^(N*M)
+
+class Solution {
+    public static int func(int i,int j){
+        if(i==0 && j==0) return 1;
+        if(i<0 || j<0) return 0;
+
+        int up=func(i-1,j);
+        int down=func(i,j-1);
+        return up+down;
+    }
+    public int uniquePaths(int m, int n) {
+        return func(m-1,n-1);
+    }
+}
+
+Memoization: Time-complexity:O(N*M)   Space-complexity:stack space andextra dp array O((N-1)+(M-1)) + O(M*N)
+
+class Solution {
+    public static int func(int i,int j,int dp[][]){
+        if(i==0 && j==0) return 1;
+        if(i<0 || j<0) return 0;
+        if(dp[i][j]!=-1) return dp[i][j];
+        int up=func(i-1,j,dp);
+        int down=func(i,j-1,dp);
+        return dp[i][j]=up+down;
+    }
+    public int uniquePaths(int m, int n) {
+        int[][] dp=new int[m][n];
+        for(int row[]: dp){
+            Arrays.fill(row,-1);
+        }
+        return func(m-1,n-1,dp);
+    }
+}
+
+Tabulation: Time-complexity:O(N*M)   Space-complexity: O(N*M)
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp=new int[m][n];
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0)  dp[i][j]=1;
+                else{
+                    int up=0,left=0;
+                    if(i>0) up=dp[i-1][j];
+                    if(j>0) left=dp[i][j-1];
+                    dp[i][j]=up+left;
+                }
+            }
+        }
+        return dp[m-1][n-1];
+    }
+}
+
+
