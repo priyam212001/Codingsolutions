@@ -1,0 +1,39 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static boolean func(int ind,int k,int arr[],int dp[][]){
+        if(k==0) return true;
+        if(ind==0)
+        return arr[0]==k;
+        
+        if(dp[ind][k]!=-1) return dp[ind][k]==0 ? false:true;
+        
+        boolean nontake=func(ind-1,k,arr,dp);
+        boolean take=false;
+        if(arr[ind]<=k){
+            take=func(ind-1,k-arr[ind],arr,dp);
+        }
+        dp[ind][k]=nontake||take? 1:0;
+        return nontake||take;
+    }
+    public static boolean subsetSumToK(int n,int k, int[] arr){
+        int[][] dp=new int[n][k+1];
+        
+        for(int row[]: dp){
+            Arrays.fill(row,-1);
+        }
+        return func(n-1,k,arr,dp);
+    }
+     public static void main(String args[]) {
+        int arr[] = { 1, 2, 3, 4 };
+        int k = 4;
+        int n = arr.length;
+
+        // Check if there exists a subset with the given target sum
+        if (subsetSumToK(n, k, arr))
+            System.out.println("Subset with the given target found");
+        else
+            System.out.println("Subset with the given target not found");
+    }
+}
