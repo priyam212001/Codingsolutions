@@ -1,34 +1,29 @@
-https://leetcode.com/problems/partition-equal-subset-sum/description/
+https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/
 
 class Solution {
-    public static boolean subsetSumToK(int ind,int target,int[] arr,int dp[][]){
-        if(target==0) return true;
+    public int minimumDifference(int[] nums) {
+        int sum = 0;
+        for(int a : nums) sum += a;
+        int ans[] = new int[1];
+        ans[0] = Integer.MAX_VALUE;
 
-        if(ind==0) return dp[ind][0]==target;
+        solve(nums.length - 1, 0, nums.length/2, sum, ans, nums);
 
-        boolean nontake=subsetSumToK(ind-1,target,arr,dp);
-        boolean take=false;
-
-        if(target>=arr[ind]) take=subsetSumToK(ind-1,target-arr[ind],arr,dp);
-        
-        dp[ind][target]=nontake|| take?1:0;
-        
-        
-        return nontake|| take;
+        return ans[0];
     }
-    public boolean canPartition(int[] nums) {
-        int totsum=0;
 
-        for(int i=0;i<nums.length;i++){
-            totsum+=nums[i];
+    public static void solve(int idx, int sum, int len, int total, int[] ans, int[] arr){
+
+        if(len == 0){
+            ans[0] = Math.min(ans[0], Math.abs(total - 2*sum));
+            return;
         }
-        if(totsum%2!=0) return false;
-         int[][] dp=new int[nums.length][totsum/2+1];
 
-         for(int row[]:dp){
-            Arrays.fill(row,-1);
-         }
+        if(idx == 0) return;
+        
+        solve(idx-1, sum + arr[idx], len-1, total, ans, arr);
 
-        return subsetSumToK(nums.length-1,totsum/2,nums,dp);
+        solve(idx-1, sum, len, total, ans, arr);
     }
 }
+
