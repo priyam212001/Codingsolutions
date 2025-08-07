@@ -1,0 +1,91 @@
+https://leetcode.com/problems/minimum-path-sum/description/
+
+Memoization: Time-complexity:O(M*N) Space-complexity:O(M*N) + O(path length){O(N-1)+O(M-1)}
+
+class Solution {
+    public static int func(int i,int j,int grid[][],int dp[][]){
+        if(i==0 && j==0) return grid[0][0];
+        if(i<0 || j<0)  return (int) Math.pow(10, 9);
+         if(dp[i][j]!=-1) return dp[i][j];
+        int up=grid[i][j]+func(i-1,j,grid,dp);
+        int left=grid[i][j]+func(i,j-1,grid,dp);
+
+        return dp[i][j]=Math.min(up,left);
+
+
+    }
+    public int minPathSum(int[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        int[][] dp=new int[m][n];
+
+        for(int[] row:dp){
+            Arrays.fill(row,-1);
+        }
+
+        return func(m-1,n-1,grid,dp);
+    }
+}
+
+
+TABULATION: Time-complexity:O(N*M)  Space-complexity:O(N*M)
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        int[][] dp=new int[m][n];
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0) dp[i][j]=grid[i][j];
+                else {
+                    int up=grid[i][j],left=grid[i][j];
+                    if(i>0) 
+                    up=grid[i][j]+dp[i-1][j];
+                    else 
+                    up+=(int) Math.pow(10,9);
+                    if(j>0) 
+                    left=grid[i][j]+dp[i][j-1];
+                    else
+                    left+=(int) Math.pow(10,9);
+                    dp[i][j]=Math.min(up,left);
+                }
+            }
+        }
+
+
+        return dp[m-1][n-1];
+    }
+}
+
+Space-omptiomization: Time-complexity:O(N*M)  Space-complexity:O(1)
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        int[] prev=new int[m];
+
+        for(int i=0;i<m;i++){
+            int[] dp=new int[n];
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0) dp[j]=grid[i][j];
+                else {
+                    int up=grid[i][j],left=grid[i][j];
+                    if(i>0) 
+                    up += prev[j];
+                    else 
+                    up+=(int) Math.pow(10,9);
+                    if(j>0) 
+                    left+=dp[j-1];
+                    else
+                    left+=(int) Math.pow(10,9);
+                    dp[j]=Math.min(up,left);
+                }
+            }
+            prev=dp;
+        }
+
+
+        return prev[n-1];
+    }
+}

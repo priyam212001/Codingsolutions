@@ -1,0 +1,55 @@
+Part-1 MEMOIZATION
+Time-complexity:O(N*K)  Space-complexity:O(N)
+import java.util.*;
+class Main {
+    public static int solve(int height[],int ind,int dp[],int k){
+        if(ind==0) return 0;
+        if(dp[ind]!=-1) return dp[ind];
+         int minstep=Integer.MAX_VALUE;
+         
+         for(int i=1;i<=k;i++){
+             
+             if(ind-i>=0){
+int jump=solve(height,ind-i,dp,k)+Math.abs(height[ind]-height[ind-i]); 
+             
+             minstep=Math.min(minstep,jump); 
+             }
+         }
+         return dp[ind]=minstep;
+    }
+    public static void main(String[] args) {
+       int[] height={10, 5, 20, 0, 15};
+       int n=height.length;
+       int k = 2;
+       int[] dp=new int[n];
+       Arrays.fill(dp,-1);
+      System.out.print(solve(height,n-1,dp,k));
+       }
+    }
+
+Part-2 TABULATION
+Time-complexity:O(N*k)  Space-complexity:O(N)
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+       int[] height={10, 5, 20, 0, 15};
+       int n=height.length;
+       int k = 2;
+       int[] dp=new int[n];
+       Arrays.fill(dp,-1);
+      dp[0]=0;
+      
+      for(int i=1;i<n;i++){
+          int minstep=Integer.MAX_VALUE;
+          
+          for(int j=1;j<=k;j++){
+              if(i-j>=0){
+                  int jump=dp[i-j]+Math.abs(height[i]-height[i-j]);
+                  minstep=Math.min(jump,minstep);
+              }
+          }
+          dp[i]=minstep;
+      }
+      System.out.print(dp[n-1]);
+       }
+    }

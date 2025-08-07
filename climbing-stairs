@@ -1,0 +1,16 @@
+Part-3 Space-optimation (SAME AS FIBONACCI NUMBER QUESTION)
+there will be only two ways whether person jump one stair or two, so it is n-1 or n-1
+
+Time-complexity:O(N)  Space-complexity:O(1)
+class Solution {
+    public int climbStairs(int n) {
+       int prev=1,prev2=1;
+
+       for(int i=2;i<=n;i++){
+        int curr=prev+prev2;
+        prev2=prev;
+        prev=curr;
+       }
+       return prev;
+    }
+}
