@@ -1,0 +1,104 @@
+https://leetcode.com/problems/coin-change-ii/description/
+
+Recurison: Time-complexity: Exponential{ we are choosing any number of any number of times}  Space-complexity:>>O(N)
+class Solution {
+    public static int func(int target,int ind,int[] coins){
+        if(ind==0) {
+          if(target%coins[ind]==0) return 1;
+
+          return 0;
+        }
+
+         int nontake=func(target,ind-1,coins);
+         int take=0;
+         if(target>=coins[ind])
+         take=func(target-coins[ind],ind,coins);
+
+         return take+nontake;
+    }
+    public int change(int amount, int[] coins) {
+        int ind=coins.length;
+        return func(amount,ind-1,coins);
+    }
+}
+
+Memoization: Time-complexity:(N*T) Space-complexity:O(N*Target)+O(Target)
+class Solution {
+    public static int func(int target,int ind,int[] coins,int[][] dp){
+        if(ind==0) {
+          if(target%coins[ind]==0) return 1;
+
+          return 0;
+        }
+        if(dp[ind][target]!=-1) return dp[ind][target];
+
+         int nontake=func(target,ind-1,coins,dp);
+         int take=0;
+         if(target>=coins[ind])
+         take=func(target-coins[ind],ind,coins,dp);
+
+         return dp[ind][target]=take+nontake;
+    }
+    public int change(int amount, int[] coins) {
+        int ind=coins.length;
+        int[][] dp=new int[ind][amount+1];
+
+        for(int row[]: dp){
+            Arrays.fill(row,-1);
+        }
+        return func(amount,ind-1,coins,dp);
+    }
+}
+Tabulation: Time-complexity:(N*T) Space-complexity:O(N*Target)
+class Solution {
+    
+    public int change(int amount, int[] coins) {
+        int n=coins.length;
+        int[][] dp=new int[n][amount+1];
+
+        for(int i=0;i<=amount;i++){
+            if(i%coins[0]==0)
+            dp[0][i]=1;
+        }
+
+        for(int ind=1;ind<n;ind++){
+            for(int target=0;target<=amount;target++){
+                int nontake=dp[ind-1][target];
+                 int take=0;
+               if(target>=coins[ind])
+                take=dp[ind][target-coins[ind]];
+
+                dp[ind][target]=take+nontake;
+            }
+        }
+        return dp[n-1][amount];
+    }
+}
+Space-optimization: Time-complexity:(N*T) Space-complexity:O(1)
+class Solution {
+    
+    public int change(int amount, int[] coins) {
+        int n=coins.length;
+        int[] prev=new int[amount+1];
+        int cur[]=new int[amount+1];
+
+
+        for(int i=0;i<=amount;i++){
+            if(i%coins[0]==0)
+            prev[i]=1;
+        }
+
+        for(int ind=1;ind<n;ind++){
+            for(int target=0;target<=amount;target++){
+                int nontake=prev[target];
+                 int take=0;
+               if(target>=coins[ind])
+                take=cur[target-coins[ind]];
+
+                cur[target]=take+nontake;
+            }
+            prev=cur;
+        }
+        return prev[amount];
+    }
+}
