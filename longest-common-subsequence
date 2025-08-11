@@ -1,0 +1,83 @@
+https://leetcode.com/problems/longest-common-subsequence/description/
+
+Recursion: Time-complexity:(2^n*2^m)
+class Solution {
+    public int func(int n1,int n2,String text1,String text2){
+        if(n1<0 || n2<0) return 0;
+
+        if(text1.charAt(n1)==text2.charAt(n2)) return 1+ func(n1-1,n2-1,text1,text2);
+
+        return Math.max(func(n1-1,n2,text1,text2),func(n1,n2-1,text1,text2));
+    }
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1=text1.length();
+        int n2=text2.length();
+
+        return func(n1-1,n2-1,text1,text2);
+    }
+}
+
+Memoization: Time-cmplexity:O(N*M)    Space-complexity:O(N*M)+O(N+M)
+class Solution {
+    public int func(int n1,int n2,String text1,String text2,int[][] dp){
+        if(n1<0 || n2<0) return 0;
+        if(dp[n1][n2]!=-1) return dp[n1][n2];
+        if(text1.charAt(n1)==text2.charAt(n2)) return dp[n1][n2]=1+ func(n1-1,n2-1,text1,text2,dp);
+
+        return dp[n1][n2]=Math.max(func(n1-1,n2,text1,text2,dp),func(n1,n2-1,text1,text2,dp));
+    }
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1=text1.length();
+        int n2=text2.length();
+       int[][] dp=new int[n1][n2];
+
+       for(int[] row:dp){
+        Arrays.fill(row,-1);
+       }
+        return func(n1-1,n2-1,text1,text2,dp);
+    }
+}
+
+Tabulation: Time-cmplexity:O(N*M)    Space-complexity:O(N*M)
+class Solution {
+   
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1=text1.length();
+        int n2=text2.length();
+       int[][] dp=new int[n1+1][n2+1];
+       for (int rows[] : dp)
+            Arrays.fill(rows, -1);
+
+       for(int j=0;j<=n2;j++) dp[0][j]=0;
+       for(int i=0;i<=n1;i++) dp[i][0]=0;
+
+       for(int i=1;i<=n1;i++){
+        for(int j=1;j<=n2;j++){
+            if(text1.charAt(i-1)==text2.charAt(j-1))  dp[i][j]=1+ dp[i-1][j-1];
+            else
+             dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+        }
+       }
+        return dp[n1][n2];
+    }
+}
+Space-optimization: Time-cmplexity:O(N*M)    Space-complexity:O(N2)
+class Solution {
+   
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n1=text1.length();
+        int n2=text2.length();
+       int[] prev=new int[n2+1];
+        int[] cur=new int[n2+1];
+
+       for(int i=1;i<=n1;i++){
+        for(int j=1;j<=n2;j++){
+            if(text1.charAt(i-1)==text2.charAt(j-1))  cur[j]=1+ prev[j-1];
+            else
+             cur[j]=Math.max(prev[j],cur[j-1]);
+        }
+        prev=(int[]) (cur.clone());
+       }
+        return prev[n2];
+    }
+}
