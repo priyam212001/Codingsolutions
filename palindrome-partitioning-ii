@@ -1,0 +1,104 @@
+https://leetcode.com/problems/palindrome-partitioning-ii/
+
+Recursion: Exponential
+
+class Solution {
+    boolean isPalindrome(int i,int j,String s){
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                return false;
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+    public int func(int i,int n,String s){
+        if(i==n) return 0;
+        int mini=Integer.MAX_VALUE;
+
+        for(int j=i;j<n;j++){
+            if(isPalindrome(i,j,s)){
+                int cost=1+func(j+1,n,s);
+                mini=Math.min(mini,cost);
+            }
+        }
+        return mini;
+    }
+    public int minCut(String s) {
+        int n=s.length();
+
+        return func(0,n,s)-1;
+    }
+}
+
+Mmeoization: Time-complexity:O(N^2)  Space-complexityO(N)+O(N)
+class Solution {
+    boolean isPalindrome(int i,int j,String s){
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                return false;
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+    public int func(int i,int n,String s,int dp[]){
+        if(i==n) return 0;
+        int mini=Integer.MAX_VALUE;
+        if(dp[i]!=-1) return dp[i];
+        for(int j=i;j<n;j++){
+            if(isPalindrome(i,j,s)){
+                int cost=1+func(j+1,n,s,dp);
+                mini=Math.min(mini,cost);
+            }
+        }
+        return dp[i]=mini;
+    }
+    public int minCut(String s) {
+        int n=s.length();
+      int dp[]=new int[n];
+      Arrays.fill(dp,-1);
+        return func(0,n,s,dp)-1;
+    }
+}
+
+Tabulation:Time-complexity:O(N^2)  Space-complexityO(N)
+
+class Solution {
+    boolean isPalindrome(int i,int j,String s){
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                return false;
+            }
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
+    }
+    public int minCut(String s) {
+        int n=s.length();
+      int dp[]=new int[n+1];
+      dp[n]=0;
+       
+
+      for(int i=n-1;i>=0;i--){
+        int mini = Integer.MAX_VALUE;
+        for(int j=i;j<n;j++){
+            if(isPalindrome(i,j,s)){
+                int cost=1+dp[j+1];
+                mini=Math.min(mini,cost);
+            }
+        }
+         dp[i]=mini;
+      }
+        return dp[0]-1;
+    }
+}
