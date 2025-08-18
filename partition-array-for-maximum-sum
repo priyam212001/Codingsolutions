@@ -1,0 +1,71 @@
+https://leetcode.com/problems/partition-array-for-maximum-sum/description/
+
+Recursion:Exponential
+class Solution {
+    public int func(int ind,int n,int arr[],int k){
+        if(ind==n) return 0;
+        int len=0,maxi=Integer.MIN_VALUE, maxvalue=Integer.MIN_VALUE;
+
+        for(int i=ind;i<Math.min(n,ind+k);i++){
+            len++;
+            maxi=Math.max(maxi,arr[i]);
+            int sum=len*maxi+func(i+1,n,arr,k);
+            maxvalue=Math.max(maxvalue,sum);
+        }
+        return maxvalue;
+    }
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n=arr.length;
+        return func(0,n,arr,k);
+
+        
+    }
+}
+
+Mmeoization:Time-complexity:O(N^2)  Space-complexity:O(N)+O(N)
+class Solution {
+    public int func(int ind,int n,int arr[],int k,int dp[]){
+        if(ind==n) return 0;
+        if(dp[ind]!=-1) return dp[ind];
+        int len=0,maxi=Integer.MIN_VALUE, maxvalue=Integer.MIN_VALUE;
+
+        for(int i=ind;i<Math.min(n,ind+k);i++){
+            len++;
+            maxi=Math.max(maxi,arr[i]);
+            int sum=len*maxi+func(i+1,n,arr,k,dp);
+            maxvalue=Math.max(maxvalue,sum);
+        }
+        return dp[ind]=maxvalue;
+    }
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n=arr.length;
+        int dp[]=new int[n];
+        Arrays.fill(dp,-1);
+        return func(0,n,arr,k,dp);
+
+        
+    }
+}
+
+Tabulation:Time-complexity:O(N^2)  Space-complexity:O(N)
+class Solution {
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        int n=arr.length;
+        int dp[]=new int[n+1];
+        dp[n]=0;
+      
+        for(int i=n-1;i>=0;i--){
+             int len=0,maxi=Integer.MIN_VALUE,maxvalue=Integer.MIN_VALUE;
+            for(int j=i;j<Math.min(n,i+k);j++){
+            len++;
+            maxi=Math.max(maxi,arr[j]);
+            int sum=len*maxi+dp[j+1];
+            maxvalue=Math.max(maxvalue,sum);
+        }
+         dp[i]=maxvalue;
+        }
+        return dp[0];
+
+        
+    }
+}
