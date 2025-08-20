@@ -1,0 +1,45 @@
+https://leetcode.com/problems/decode-ways/submissions/1741856079/
+
+Recursion:Exponential
+class Solution {
+    public int func(int ind,String s){
+        if(ind==s.length()) return 1;
+
+        if(s.charAt(ind)=='0') return 0;
+
+        int one=func(ind+1,s);
+
+        if(ind+1<s.length() && Integer.parseInt(s.substring(ind,ind+2))<=26){
+            one+=func(ind+2,s);
+        }
+
+        return one;
+    }
+    public int numDecodings(String s) {
+        
+        return func(0,s);
+    }
+}
+
+Memoization:Time-complexity:O(N)  Space-complexity:O(N)+O(N)
+class Solution {
+    public int func(int ind,String s,int dp[]){
+        if(ind==s.length()) return 1;
+
+        if(s.charAt(ind)=='0') return 0;
+        if(dp[ind]!=-1) return dp[ind];
+
+        int one=func(ind+1,s,dp);
+
+        if(ind+1<s.length() && Integer.parseInt(s.substring(ind,ind+2))<=26){
+            one+=func(ind+2,s,dp);
+        }
+
+        return dp[ind]=one;
+    }
+    public int numDecodings(String s) {
+        int dp[]=new int[s.length()];
+        Arrays.fill(dp,-1);
+        return func(0,s,dp);
+    }
+}
