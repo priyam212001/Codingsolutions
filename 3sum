@@ -10,7 +10,7 @@ Brute-Approach: Time-complexity: O(n^3) + log(number of triplet)  Space-complexi
                        List<Integer> temp = Arrays.asList(nums[i], nums[j], nums[k]);
                         Collections.sort(temp);
                         uniqueTriplets.add(temp);
-                    }
+                     }
                 }
             }
         }
