@@ -1,0 +1,27 @@
+https://leetcode.com/problems/container-with-most-water/description/
+
+Time-complexity:O(N)
+
+class Solution {
+    public int maxArea(int[] height) {
+        int ans=0;
+        int start=0;
+        int end=height.length-1;
+        int max=1;
+        while(start<end){
+         int diff=end-start;
+         if(height[start]>height[end]){
+           max=diff*height[end];
+           ans=Math.max(ans,max);
+           end--;
+         }
+         else if(height[start]<=height[end]){
+            max=diff*height[start];
+            ans=Math.max(ans,max);
+            start++;
+         }
+        }
+
+        return ans;
+    }
+}
