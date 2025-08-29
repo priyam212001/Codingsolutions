@@ -1,0 +1,22 @@
+https://leetcode.com/problems/binary-subarrays-with-sum/description/
+
+Time-complexity:O(N) Space-complexity:O(1)
+class Solution {
+    public int count(int nums[],int k){
+        if(k<0) return 0;
+        int left=0,right=0,sum=0,count=0;
+        while(right<nums.length){
+           sum+=nums[right];
+           while(sum>k){
+            sum-=nums[left];
+            left++;
+           }
+           count+=right-left+1;
+           right++;
+        }
+        return count;
+    }
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        return count(nums,goal)-count(nums,goal-1);
+    }
+}
