@@ -1,0 +1,39 @@
+https://leetcode.com/problems/minimum-window-substring/description/
+
+Time-complexity:O(2N)+O(M)  Space-complexity:O(1)
+class Solution {
+    public String minWindow(String s, String t) {
+        int m=s.length(),n=t.length();
+        HashMap<Character,Integer> mp=new HashMap<>();
+        int ans=Integer.MAX_VALUE,start=0;
+
+        for(int i=0;i<t.length();i++){
+            char ch=t.charAt(i);
+            mp.put(ch,mp.getOrDefault(ch,0)+1);
+        }
+        int count=mp.size();
+        int left=0,right=0;
+
+        while(right<s.length()){
+            mp.put(s.charAt(right),mp.getOrDefault(s.charAt(right),0)-1);
+            if(mp.get(s.charAt(right))==0) count--;
+
+            while(count==0){
+             if(ans>right-left+1){
+                ans=right-left+1;
+                start=left;
+             }
+             mp.put(s.charAt(left),mp.getOrDefault(s.charAt(left),0)+1);
+             if(mp.get(s.charAt(left))>0) count++;
+
+             left++;
+            }
+
+            right++;
+        }
+        if(ans!=Integer.MAX_VALUE){
+          return s.substring(start,start+ans);
+        }
+        else return "";
+    }
+}
