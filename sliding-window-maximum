@@ -1,0 +1,52 @@
+https://leetcode.com/problems/sliding-window-maximum/description/
+
+Time-complexity:O(N-K)*O(K) 
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        List<Integer> list=new ArrayList<Integer>();
+        
+        for(int i=0;i<nums.length-k+1;i++){
+           int ind=0;
+           int j=i;
+           int sum=Integer.MIN_VALUE;
+           while(ind<k ){
+           sum=Math.max(sum,nums[j]);
+           ind++; j++;
+           }
+           list.add(sum);
+        }
+        int arr[]=new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            arr[i]=list.get(i);
+        }
+
+        return arr;
+    }
+}
+
+Time complexity: O(n) – each element is pushed and popped at most once.
+Space complexity: O(k) – deque stores up to k indices.
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> dq=new ArrayDeque<>();
+        int n=nums.length;
+        int[] res=new int[n-k+1];
+        int ind=0;
+        for(int i=0;i<n;i++){
+            while(!dq.isEmpty() && nums[dq.peekLast()]<nums[i]){
+                dq.pollLast();
+            }
+            dq.offerLast(i);
+            if(dq.peekFirst()<=i-k){
+                dq.pollFirst();
+            }
+            if(i>=k-1){
+                res[ind++]=nums[dq.peekFirst()];
+            }
+        }
+
+
+        return res;
+    }
+}
