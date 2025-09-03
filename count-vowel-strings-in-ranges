@@ -1,0 +1,38 @@
+https://leetcode.com/problems/count-vowel-strings-in-ranges/description/
+
+Time complexity: 0(N)  Space complexity:0(N)
+
+class Solution {
+    public boolean isVowel(char ch){
+        String str="aeiou";
+        return str.indexOf(ch)!=-1;
+    }
+    public int[] vowelStrings(String[] words, int[][] queries) {
+        int n=words.length;
+        int count[]=new int[n];
+
+        for(int i=0;i<n;i++){
+            String ch=words[i];
+            if(isVowel(ch.charAt(0)) && isVowel(ch.charAt(ch.length()-1))){
+                count[i]++;
+            }
+        }
+        for(int i=1;i<n;i++){
+          count[i]+=count[i-1];
+        }
+        int ans[]=new int[queries.length];
+        int ind=0;
+        for(int[] row:queries){
+            int l=row[0];
+            int r=row[1];
+            if(l==0){
+                ans[ind++]=count[r];
+            }
+            else{
+                ans[ind++]=count[r]-count[l-1];
+            }
+
+        }
+        return ans;
+    }
+}
