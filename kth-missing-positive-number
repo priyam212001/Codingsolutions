@@ -1,0 +1,22 @@
+https://leetcode.com/problems/kth-missing-positive-number/
+
+class Solution {
+    public int findKthPositive(int[] arr, int m) {
+        int ans[]=new int[m];
+        int i=1; int j=0;
+        int k=0;
+        while(j<ans.length){
+            if(k<arr.length && i==arr[k] ){
+                k++;
+                i++;
+            }
+            else{
+              ans[j]=i;
+              j++;i++;
+            }
+        }
+
+
+        return ans[j-1];
+    }
+}
